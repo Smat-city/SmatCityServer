@@ -1,0 +1,17 @@
+{
+  "env": {
+    "node": true
+  },
+  "extends": ["airbnb-typescript-base", "plugin:prettier/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "consistent-return": "off"
+  }
+}
