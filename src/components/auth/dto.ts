@@ -1,12 +1,8 @@
-export interface CreateUserDTO {
-  email: string
-  firstname: string
-  lastname: string
-  password: string
-  username: string
-}
+import { User } from "../../entities"
 
-export interface VerifyUserDTO {
-  password: string
-  username: string
-}
+export type CreateUserDTO = Pick<
+  User,
+  "email" | "firstname" | "lastname" | "username" | "password"
+>
+
+export type VerifyUserDTO = Pick<User, "username" | "password">

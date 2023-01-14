@@ -14,11 +14,15 @@ import { StatusCodes } from "http-status-codes"
 import { TokenExpiredError } from "jsonwebtoken"
 import morgan from "morgan"
 import { ZodError } from "zod"
-import { authComponent, usersComponent } from "../components"
+import {
+  accomodationsComponent,
+  authComponent,
+  usersComponent,
+} from "../components"
 import { globals, logger, passport } from "../configs"
 
 interface CustomErrorRequestHandler extends ErrorRequestHandler {
-  code: number
+  code?: number
   message?: string
   status?: number
 }
@@ -47,6 +51,8 @@ server.use(
 )
 
 server.use("/auth", authComponent.authRouter)
+
+server.use("/accomodations", accomodationsComponent.accomodationsRouter)
 
 server.use("/users", usersComponent.usersRouter)
 

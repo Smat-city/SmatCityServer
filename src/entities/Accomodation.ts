@@ -21,4 +21,22 @@ export default class Accomodation extends BaseEntity {
     enum: [CompoundType.flat],
   })
   compoundType: CompoundType
+
+  @Column({
+    type: "bool",
+    default: 0,
+  })
+  tiled: boolean
+
+  @Column({
+    type: "bool",
+    default: 0,
+  })
+  waterSupply: boolean
+
+  @Column({
+    type: "bool",
+    default: 0,
+  })
+  security: boolean
 }
