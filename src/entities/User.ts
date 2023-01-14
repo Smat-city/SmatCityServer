@@ -29,6 +29,12 @@ export default class User extends BaseEntity {
   email: string
 
   @Column({
+    type: "bool",
+    default: 0,
+  })
+  verified: boolean
+
+  @Column({
     type: "enum",
     enum: [UserRole.basic, UserRole.pro, UserRole.admin],
     default: UserRole.basic,

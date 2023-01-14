@@ -11,8 +11,8 @@ export default class Accomodation extends BaseEntity {
   title: string
 
   @Column({
-    type: "boolean",
-    default: false,
+    type: "bool",
+    default: 0,
   })
   verified: boolean
 
