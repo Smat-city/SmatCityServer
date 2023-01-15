@@ -7,7 +7,7 @@
     "dev": "npx nodemon 'src/start.ts'",
     "format": "npx prettier 'src/**/*.ts'",
     "build": "npx rimraf dist && npx tsc --project .",
-    "start": "yarn build && npx pm2 start dist/start.js",
+    "start": "NODE_ENV=production npx pm2 stop dist/start.js && yarn build && npx pm2 start dist/start.js",
     "clear:logs": "npx rimraf src/logs dist/logs",
     "prepare": "npx husky install",
     "typeorm": "typeorm-ts-node-commonjs"
