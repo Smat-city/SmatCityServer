@@ -1,7 +1,0 @@
-export const MEETING_CREATE = "meeting:create"
-export const MEETING_SCHEDULE = "meeting:schedule"
-export const MEETING_INVITE = "meeting:invite"
-export const SOCKET_JOIN_MEETING = "meeting:join"
-export const SOCKET_LEAVE_MEETING = "meeting:leave"
-export const NOTIFICATION = "notification"
-export const SOCKET_APP_ERROR = "app:error"

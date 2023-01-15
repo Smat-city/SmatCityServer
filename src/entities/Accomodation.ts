@@ -1,9 +1,9 @@
-import { Column, Entity } from "typeorm"
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from "typeorm"
 import { BaseEntity } from "../interfaces"
-
-enum CompoundType {
-  flat = "flat",
-}
+// eslint-disable-next-line import/no-cycle
+import Address from "./Address"
+// eslint-disable-next-line import/no-cycle
+import Media from "./Media"
 
 @Entity()
 export default class Accomodation extends BaseEntity {
@@ -11,32 +11,43 @@ export default class Accomodation extends BaseEntity {
   title: string
 
   @Column({
-    type: "bool",
-    default: 0,
+    type: "boolean",
+    default: false,
   })
   verified: boolean
 
-  @Column({
-    type: "enum",
-    enum: [CompoundType.flat],
-  })
-  compoundType: CompoundType
+  @Column()
+  compoundType: string
+
+  @Column()
+  houseType: string
 
   @Column({
-    type: "bool",
-    default: 0,
+    type: "boolean",
+    default: false,
   })
   tiled: boolean
 
   @Column({
-    type: "bool",
-    default: 0,
+    type: "boolean",
+    default: false,
   })
   waterSupply: boolean
 
   @Column({
-    type: "bool",
-    default: 0,
+    type: "boolean",
+    default: false,
   })
   security: boolean
+
+  initialFee: number
+
+  subsequentFee: number
+
+  @OneToMany(() => Media, (media) => media.accomodation)
+  media: Media[]
+
+  @OneToOne(() => Address)
+  @JoinColumn()
+  address: Address
 }

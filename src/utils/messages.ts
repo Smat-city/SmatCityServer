@@ -13,4 +13,6 @@ export default {
   EMAIL: "Invalid email address",
 
   EXISTS: (fieldname: string) => `${fieldname} already exists`,
+
+  TYPE_ERROR: "Invalid type",
 }

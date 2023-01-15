@@ -1,11 +1,12 @@
 import { StatusCodes } from "http-status-codes"
-import { inject, injectable } from "tsyringe"
+import { inject, injectable, singleton } from "tsyringe"
 import { EntityManager } from "typeorm"
-import { User } from "../../entities"
-import { TransactionService } from "../../interfaces"
-import { CustomError } from "../../utils"
+import { User } from "../entities"
+import { TransactionService } from "../interfaces"
+import { CustomError } from "../utils"
 
 @injectable()
+@singleton()
 export default class UserService extends TransactionService {
   protected entityManager: EntityManager
 
@@ -45,6 +46,15 @@ export default class UserService extends TransactionService {
       }
 
       const result = await this.entityManager.findOne(User, {
+        select: {
+          id: true,
+          username: true,
+          firstname: true,
+          lastname: true,
+          email: true,
+          verified: true,
+          type: true,
+        },
         where: {
           id,
         },

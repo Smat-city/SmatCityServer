@@ -1,15 +1,16 @@
 import { randomUUID } from "crypto"
 import { StatusCodes } from "http-status-codes"
-import { inject, injectable } from "tsyringe"
+import { inject, injectable, singleton } from "tsyringe"
 import { EntityManager } from "typeorm"
-import { globals } from "../../configs"
-import { User, Token } from "../../entities"
-import { TokenType } from "../../entities/Token"
-import { TransactionService } from "../../interfaces"
-import { CustomError, hashManager, messages } from "../../utils"
-import { CreateUserDTO, VerifyUserDTO } from "./dto"
+import { globals } from "../configs"
+import { authDTO } from "../dtos"
+import { User, Token } from "../entities"
+import { TokenType } from "../entities/Token"
+import { TransactionService } from "../interfaces"
+import { CustomError, hashManager, messages } from "../utils"
 
 @injectable()
+@singleton()
 export default class AuthService extends TransactionService {
   protected entityManager: EntityManager
 
@@ -20,7 +21,7 @@ export default class AuthService extends TransactionService {
     this.entityManager = entityManager
   }
 
-  async createUser(payload: CreateUserDTO) {
+  async createUser(payload: authDTO.CreateUserDTO) {
     const { username, password, firstname, lastname, email } = payload
 
     try {
@@ -73,20 +74,34 @@ export default class AuthService extends TransactionService {
     }
   }
 
-  async verifyUser(payload: VerifyUserDTO) {
+  async verifyUser(payload: authDTO.VerifyUserDTO) {
     const { username } = payload
     try {
       const user = (await this.entityManager.findOne(User, {
         select: {
           id: true,
           username: true,
+          firstname: true,
+          lastname: true,
+          email: true,
           password: true,
           type: true,
+          verified: true,
         },
         where: {
           username,
         },
-      })) as Pick<User, "id" | "username" | "password" | "type">
+      })) as Pick<
+        User,
+        | "id"
+        | "username"
+        | "password"
+        | "type"
+        | "firstname"
+        | "lastname"
+        | "verified"
+        | "email"
+      >
 
       return {
         user,

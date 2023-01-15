@@ -14,12 +14,8 @@ import { StatusCodes } from "http-status-codes"
 import { TokenExpiredError } from "jsonwebtoken"
 import morgan from "morgan"
 import { ZodError } from "zod"
-import {
-  accomodationsComponent,
-  authComponent,
-  usersComponent,
-} from "../components"
-import { globals, logger, passport } from "../configs"
+import { globals, logger, passportConfig } from "../configs"
+import { usersRouter, authRouter, accomodationsRouter } from "../routes"
 
 interface CustomErrorRequestHandler extends ErrorRequestHandler {
   code?: number
@@ -39,7 +35,7 @@ server.use(
     extended: true,
   })
 )
-server.use(passport.initialize())
+server.use(passportConfig.passport.initialize())
 server.use(
   morgan("combined", {
     stream: {
@@ -50,11 +46,11 @@ server.use(
   })
 )
 
-server.use("/auth", authComponent.authRouter)
+server.use("/auth", authRouter)
 
-server.use("/accomodations", accomodationsComponent.accomodationsRouter)
+server.use("/accomodations", accomodationsRouter)
 
-server.use("/users", usersComponent.usersRouter)
+server.use("/users", usersRouter)
 
 server.use("*", (req: Request, res: Response) => {
   res.status(StatusCodes.NOT_FOUND).json({

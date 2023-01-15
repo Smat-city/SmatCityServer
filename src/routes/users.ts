@@ -1,15 +1,14 @@
 import { RequestHandler, Router } from "express"
-import { authenticate } from "../../configs/passport"
-import { authMiddleware } from "../auth"
-import { user, users } from "./controller"
+import { usersController } from "../controllers"
+import { authMiddleware } from "../middlewares"
 
-const { isAdmin } = authMiddleware
+const { authenticate } = authMiddleware
+
+const { users, user } = usersController
 
 const router = Router()
 
 router.use(authenticate)
-
-router.use(isAdmin)
 
 router.get("/", users as RequestHandler)
 

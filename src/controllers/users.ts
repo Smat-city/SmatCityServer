@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express"
 import { container } from "tsyringe"
-import UserService from "./service"
+import { UsersService } from "../services"
 
 export const user = async (req: Request, res: Response, next: NextFunction) => {
-  const userService = container.resolve(UserService)
+  const userService = container.resolve(UsersService)
 
   const { id } = req.params
 
@@ -24,7 +24,7 @@ export const users = async (
   res: Response,
   next: NextFunction
 ) => {
-  const userService = container.resolve(UserService)
+  const userService = container.resolve(UsersService)
 
   const { result, err: userError } = await userService.users()
   if (userError) {

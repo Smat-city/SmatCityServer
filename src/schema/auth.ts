@@ -1,5 +1,5 @@
 import { object, string } from "zod"
-import { messages } from "../../utils"
+import { messages } from "../utils"
 
 const transform = (arg: string, trimOnly?: boolean) => {
   const trimmedString = arg.trim()

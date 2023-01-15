@@ -9,11 +9,12 @@ export const fileFilter = (
   callback: multer.FileFilterCallback
 ) => {
   if (!acceptedMimetypes.includes(file.mimetype))
-    return callback(new Error("Invalid File!"))
+    return callback(new multer.MulterError("LIMIT_UNEXPECTED_FILE"))
   callback(null, true)
 }
 
-export default {
-  ...multer,
+const fileMiddleware = multer.default({
   fileFilter,
-}
+})
+
+export default fileMiddleware

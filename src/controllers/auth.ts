@@ -1,23 +1,22 @@
 import "reflect-metadata"
 import { StatusCodes } from "http-status-codes"
 import { container } from "tsyringe"
-import { globals } from "../../configs"
-import { CustomError, hashManager, schemaValidator, token } from "../../utils"
-import { verifyToken } from "../../utils/token"
-import { CreateUserDTO, VerifyUserDTO } from "./dto"
-import { AuthRegisterSchema, AuthLoginSchema } from "./schema"
-import AuthService from "./service"
+import { globals } from "../configs"
+import { authSchema } from "../schema"
+import { AuthService } from "../services"
+import { CustomError, hashManager, schemaValidator, token } from "../utils"
+import type { authDTO } from "../dtos"
 import type { NextFunction, Request, Response } from "express"
+
+const { AuthRegisterSchema, AuthLoginSchema } = authSchema
 
 export const register = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { validated, error: validationError } = schemaValidator<CreateUserDTO>(
-    AuthRegisterSchema,
-    req.body
-  )
+  const { validated, error: validationError } =
+    schemaValidator<authDTO.CreateUserDTO>(AuthRegisterSchema, req.body)
   if (validationError || !validated) return next(validationError)
   const authService = container.resolve(AuthService)
 
@@ -39,10 +38,8 @@ export const login = async (
 ) => {
   const authService = container.resolve(AuthService)
 
-  const { validated, error: validationError } = schemaValidator<VerifyUserDTO>(
-    AuthLoginSchema,
-    req.body
-  )
+  const { validated, error: validationError } =
+    schemaValidator<authDTO.VerifyUserDTO>(AuthLoginSchema, req.body)
   if (validationError || !validated) return next(validationError)
 
   const { user, err: userVerificationError } = await authService.verifyUser(
@@ -71,6 +68,10 @@ export const login = async (
       id: user.id,
       username: user.username,
       type: user.type,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      verified: user.verified,
+      email: user.email,
     },
     {
       expiresIn: globals.ACCESS_TOKEN_TTL,
@@ -160,17 +161,25 @@ export const tokenRefresh = async (
     }
   }
 
-  const { id, username, type } = req.user as {
-    id: string
-    type: string
-    username: string
-  }
+  const { id, username, type, firstname, lastname, verified, email } =
+    req.user as {
+      email: string
+      firstname: string
+      id: string
+      lastname: string
+      type: string
+      username: string
+      verified: boolean
+    }
   const refreshToken = cookies[globals.REFRESH_TOKEN_KEY as string]
   const authToken = cookies[globals.ACCESS_TOKEN_KEY as string]
 
-  const { payload, err: tokenVerificationError } = verifyToken(authToken, {
-    ignoreExpiration: true,
-  })
+  const { payload, err: tokenVerificationError } = token.verifyToken(
+    authToken,
+    {
+      ignoreExpiration: true,
+    }
+  )
 
   if (tokenVerificationError) return next(tokenVerificationError)
 
@@ -202,6 +211,10 @@ export const tokenRefresh = async (
       id,
       username,
       type,
+      firstname,
+      lastname,
+      email,
+      verified,
     },
     {
       expiresIn: globals.ACCESS_TOKEN_TTL,

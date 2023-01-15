@@ -7,6 +7,5 @@ temp/
 .env
 yarn.lock
 README.md
-prisma/
 logs/
 yarn-error.log

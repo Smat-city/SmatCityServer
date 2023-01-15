@@ -1,5 +1,4 @@
 export { default as schemaValidator } from "./validator"
-export * as events from "./events"
 export { default as CustomError } from "./CustomError"
 export * as hashManager from "./hashManager"
 export * as token from "./token"

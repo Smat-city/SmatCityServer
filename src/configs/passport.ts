@@ -1,4 +1,4 @@
-import { Request, RequestHandler } from "express"
+import { Request } from "express"
 import { JwtPayload, TokenExpiredError, VerifyCallback } from "jsonwebtoken"
 import { Passport } from "passport"
 import { Strategy } from "passport-jwt"
@@ -17,6 +17,7 @@ const verify = (req: Request, payload: JwtPayload, done: VerifyCallback) => {
       undefined
     )
   }
+
   done(null, payload)
 }
 
@@ -37,8 +38,3 @@ export const strategy = new Strategy(
 
   verify
 )
-
-export const authenticate = passport.authenticate(strategy, {
-  session: false,
-  failWithError: true,
-}) as RequestHandler

@@ -1,6 +1,9 @@
 import { RequestHandler, Router } from "express"
-import { authenticate } from "../../configs/passport"
-import { login, logout, register, tokenRefresh, user } from "./controller"
+import { authController } from "../controllers"
+import { authMiddleware } from "../middlewares"
+
+const { authenticate } = authMiddleware
+const { register, login, logout, tokenRefresh, user } = authController
 
 const router = Router()
 
