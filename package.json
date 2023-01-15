@@ -6,7 +6,7 @@
     "lint": "npx eslint 'src/**/*.ts'",
     "dev": "npx nodemon 'src/start.ts'",
     "format": "npx prettier 'src/**/*.ts'",
-    "build": "npx rimraf dist && npx tsc",
+    "build": "npx rimraf dist && npx tsc --project .",
     "start": "yarn build && npx pm2 start dist/start.js",
     "clear:logs": "npx rimraf src/logs dist/logs",
     "prepare": "npx husky install",

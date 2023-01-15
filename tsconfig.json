@@ -5,6 +5,7 @@
     "experimentalDecorators": true /* Enable experimental support for TC39 stage 2 draft decorators. */,
     "emitDecoratorMetadata": true /* Emit design-type metadata for decorated declarations in source files. */,
     "module": "commonjs" /* Specify what module code is generated. */,
+    "moduleResolution": "node",
     "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
     "sourceMap": true /* Create source map files for emitted JavaScript files. */,
     "outDir": "./dist" /* Specify an output folder for all emitted files. */,
@@ -14,6 +15,6 @@
     "strictPropertyInitialization": false /* Check for class properties that are declared but not set in the constructor. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "includes": ["src/**/*.ts"],
+  "includes": ["./src/**/*.ts"],
   "exclude": ["node_modules"]
 }
